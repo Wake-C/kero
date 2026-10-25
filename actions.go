@@ -44,6 +44,8 @@ func (a *App) run(id string, args map[string]string) {
 		} else {
 			a.newSessionIn(h, proto.Home())
 		}
+	case "session.newWorktree":
+		a.newWorktreeSession()
 	case "project.open":
 		a.openProject()
 	case "palette.open":
@@ -134,6 +136,7 @@ var actionTitles = map[string]func() string{
 	"app.quitAll":         locales.ActionQuitAll,
 	"session.new":         locales.ActionNewSession,
 	"session.newHome":     locales.ActionNewSessionHome,
+	"session.newWorktree": locales.ActionNewSessionWorktree,
 	"project.open":        locales.ActionOpenProject,
 	"palette.open":        locales.ActionGoToSession,
 	"conversation.resume": locales.ActionResumeConversation,
@@ -217,7 +220,7 @@ func (a *App) menu() *mygo.Menu {
 	return mygo.NewMenu([]*mygo.MenuItem{
 		kero,
 		{Label: locales.MenuSession(), Submenu: a.items("Session",
-			[]string{"session.new", "session.newHome", "project.open"},
+			[]string{"session.new", "session.newHome", "session.newWorktree", "project.open"},
 			[]string{"palette.open", "conversation.resume", "session.attention", "session.next", "session.previous"},
 			[]string{"session.rename", "pane.restart"},
 			[]string{"pane.close", "session.close"})},

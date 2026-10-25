@@ -113,6 +113,7 @@ var actionWords = map[string]string{
 	"app.quitAll":         "exit quit kill stop end all sessions",
 	"session.new":         "create add tab terminal shell",
 	"session.newHome":     "create add tab terminal shell home directory ~",
+	"session.newWorktree": "create add worktree branch checkout agent isolate parallel",
 	"conversation.resume": "history agent claude codex pi opencode continue reopen restore past chat",
 	"project.open":        "folder directory repo repository workspace add",
 	"palette.open":        "switch jump search find command palette",

@@ -27,6 +27,7 @@ var All = []Action{
 
 	{ID: "session.new", Title: "New Session", Menu: "Session", Keys: "CmdOrCtrl+T", Remote: true},
 	{ID: "session.newHome", Title: "New Session in Home", Menu: "Session", Keys: "CmdOrCtrl+Shift+T", Remote: true},
+	{ID: "session.newWorktree", Title: "New Session in Worktree…", Menu: "Session", Keys: "CmdOrCtrl+Alt+T"},
 	{ID: "project.open", Title: "Open Project…", Menu: "Session", Keys: "CmdOrCtrl+O"},
 	{ID: "palette.open", Title: "Go to Session…", Menu: "Session", Keys: "CmdOrCtrl+P", Remote: true},
 	{ID: "conversation.resume", Title: "Resume Conversation…", Menu: "Session", Keys: "CmdOrCtrl+Shift+O", Remote: true},
@@ -69,6 +70,7 @@ var pcKeys = map[string]string{
 	"app.quitAll":         "",
 	"session.new":         "Ctrl+Shift+T",
 	"session.newHome":     "",
+	"session.newWorktree": "",
 	"project.open":        "Ctrl+Shift+O",
 	"palette.open":        "Ctrl+Shift+P",
 	"conversation.resume": "",
