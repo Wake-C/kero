@@ -240,7 +240,7 @@ func TestBundledFont(t *testing.T) {
 	if !tt.HasText("JetBrains Mono Nerd Font") {
 		t.Errorf("the picker does not show the bundled font; texts %q", tt.Texts())
 	}
-	if !tt.HasText("Sarasa Mono SC") {
+	if !tt.HasText("NSimSun") {
 		t.Errorf("the font detail does not mention a CJK fallback; texts %q", tt.Texts())
 	}
 	shot(t, tt, "font-preview")
