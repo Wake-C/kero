@@ -33,6 +33,10 @@ type convStore struct {
 	mu    sync.Mutex
 	list  []proto.Conversation
 	dirty bool
+	// gen counts the changes to the list that show in the app's sidebar:
+	// a conversation added, forgotten, archived, ended or renamed, not
+	// one that runs on (State.Conversations).
+	gen uint64
 	// titles are Claude Code's titles of its conversations, as read from
 	// their transcripts at a modification time.
 	titles map[string]claudeTitle
@@ -105,9 +109,18 @@ func (cs *convStore) note(c proto.Conversation, at int64) {
 		if c == old {
 			return
 		}
+		// One that runs again is no longer archived. Its title, which an
+		// agent may change as it works, shows anew as it ends (noteEnded):
+		// a change to it would only have the app ask again and again.
+		was, now := old, c
+		was.Updated, now.Updated, was.Title, now.Title = 0, 0, "", ""
+		if was != now {
+			cs.gen++
+		}
 		cs.list = slices.Delete(cs.list, i, i+1)
 	} else {
 		c.Started, c.Updated = at, at
+		cs.gen++
 	}
 	// The last to run first.
 	j, _ := slices.BinarySearchFunc(cs.list, c.Updated, func(o proto.Conversation, t int64) int {
@@ -132,8 +145,36 @@ func (cs *convStore) forget(agent, id string) bool {
 	defer cs.mu.Unlock()
 	n := len(cs.list)
 	cs.list = slices.DeleteFunc(cs.list, func(o proto.Conversation) bool { return o.Agent == agent && o.ID == id })
-	cs.dirty = cs.dirty || len(cs.list) != n
-	return len(cs.list) != n
+	if len(cs.list) == n {
+		return false
+	}
+	cs.dirty = true
+	cs.gen++
+	return true
+}
+
+// archive moves a conversation to the sidebar's Archived, or back,
+// reporting whether it was known.
+func (cs *convStore) archive(agent, id string, archived bool) bool {
+	cs.mu.Lock()
+	defer cs.mu.Unlock()
+	i := slices.IndexFunc(cs.list, func(o proto.Conversation) bool { return o.Agent == agent && o.ID == id })
+	if i < 0 {
+		return false
+	}
+	if cs.list[i].Archived != archived {
+		cs.list[i].Archived = archived
+		cs.dirty = true
+		cs.gen++
+	}
+	return true
+}
+
+// generation is the count of the list's changes (gen).
+func (cs *convStore) generation() uint64 {
+	cs.mu.Lock()
+	defer cs.mu.Unlock()
+	return cs.gen
 }
 
 func (cs *convStore) find(agent, id string) (proto.Conversation, bool) {
@@ -204,7 +245,11 @@ func (d *Daemon) noteEnded(p *pane) {
 			c.Name = old.Name
 		}
 		d.convs.note(*c, time.Now().UnixMilli())
-		d.save()
+		// Ended, it moves to the sidebar's Ended, if it shows.
+		d.convs.mu.Lock()
+		d.convs.gen++
+		d.convs.mu.Unlock()
+		d.changed()
 	}
 }
 

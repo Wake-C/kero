@@ -80,3 +80,13 @@ kero history             # the conversations, the last to run first
 kero history login       # those matching "login"
 kero resume 13b9         # resume one by its id, a prefix of it, or its name
 ```
+
+<a id="ended-sessions"></a>
+
+### In the sidebar
+
+Turn on Settings › General › **Session history**, or `session-history = true`, to list them at the bottom of the sidebar too. **Ended** has the conversations no pane runs now, newest first: the five newest, then **Show all**. Those of your other hosts are among them, tagged with the host's name. Click its header to unfold it.
+
+- Click one to resume it, as the palette does.
+- Hover one and click the archive button to move it to **Archived**, below, where it can still be resumed. It leaves Archived when it runs again.
+- Right-click one to resume, archive or restore it, copy its id or folder, show the folder, or delete it, which only Kero forgets. Right-click **Ended** to archive them all, or **Archived** to delete them all.

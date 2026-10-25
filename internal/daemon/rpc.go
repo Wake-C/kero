@@ -389,7 +389,18 @@ func (d *Daemon) call(c *controlConn, method string, raw json.RawMessage) (any, 
 		if !d.convs.forget(p.Agent, p.ID) {
 			return nil, fmt.Errorf("no conversation %s of %s", p.ID, p.Agent)
 		}
-		d.save()
+		d.changed()
+		return true, nil
+
+	case "conversation.archive":
+		var p proto.ConversationParams
+		if err := decode(&p); err != nil {
+			return nil, err
+		}
+		if !d.convs.archive(p.Agent, p.ID, p.Archived) {
+			return nil, fmt.Errorf("no conversation %s of %s", p.ID, p.Agent)
+		}
+		d.changed()
 		return true, nil
 
 	case "project.create":

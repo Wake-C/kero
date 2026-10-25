@@ -52,6 +52,43 @@ func TestConversationNote(t *testing.T) {
 	}
 }
 
+// The sidebar hears of a conversation added, renamed, archived or
+// forgotten, not of one that runs on; one archived that runs again is
+// archived no more.
+func TestConversationGen(t *testing.T) {
+	var cs convStore
+	gen := cs.generation()
+	changed := func(want bool, what string) {
+		t.Helper()
+		if g := cs.generation(); (g != gen) != want {
+			t.Errorf("%s: changed %v", what, g != gen)
+		}
+		gen = cs.generation()
+	}
+	cs.note(proto.Conversation{Agent: "claude", ID: "a", Dir: "/src"}, 100)
+	changed(true, "added")
+	cs.note(proto.Conversation{Agent: "claude", ID: "a", Dir: "/src", Title: "Working"}, 200)
+	changed(false, "ran on")
+	cs.note(proto.Conversation{Agent: "claude", ID: "a", Name: "fix"}, 300)
+	changed(true, "named")
+	if !cs.archive("claude", "a", true) || !cs.list[0].Archived {
+		t.Fatal("archive")
+	}
+	changed(true, "archived")
+	cs.archive("claude", "a", true)
+	changed(false, "archived again")
+	if cs.archive("claude", "b", true) {
+		t.Error("archived an unknown one")
+	}
+	cs.note(proto.Conversation{Agent: "claude", ID: "a", Name: "fix"}, 400)
+	if cs.list[0].Archived {
+		t.Error("still archived as it runs again")
+	}
+	changed(true, "ran again")
+	cs.forget("claude", "a")
+	changed(true, "forgotten")
+}
+
 // What a pane's agent runs is remembered as it runs and after its pane
 // closes, under the session's name and the agent's title, and comes back
 // in a session that resumes it, which a second resume shows again.

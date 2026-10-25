@@ -138,6 +138,11 @@ type State struct {
 	// Viewed is the session a client shows in a focused window.
 	Viewed  string `json:"viewed,omitempty"`
 	Started int64  `json:"started"` // unix ms, the daemon's start
+	// Conversations counts the changes to the conversations kerod
+	// remembers that show in the sidebar, for the app to ask for them
+	// anew (the conversations method) rather than have them in every
+	// state.
+	Conversations uint64 `json:"conversations,omitempty"`
 }
 
 // Project groups sessions, usually those of one repository.
@@ -266,6 +271,9 @@ type Conversation struct {
 	// Session and Pane run it now; "" when none does.
 	Session string `json:"session,omitempty"`
 	Pane    string `json:"pane,omitempty"`
+	// Archived: the user moved it to the sidebar's Archived, until it
+	// runs again.
+	Archived bool `json:"archived,omitempty"`
 }
 
 // Label is what to call a conversation: its session's name, else its
@@ -869,13 +877,15 @@ type (
 		Dir     string `json:"dir,omitempty"` // the agent's, to tell its pane by
 	}
 	// ConversationParams names a conversation (Conversation), to resume
-	// in a session after After, of Cols and Rows, or to forget.
+	// in a session after After, of Cols and Rows, to forget, or to
+	// archive or not, as Archived.
 	ConversationParams struct {
-		Agent string `json:"agent"`
-		ID    string `json:"id"`
-		After string `json:"after,omitempty"`
-		Cols  int    `json:"cols,omitempty"`
-		Rows  int    `json:"rows,omitempty"`
+		Agent    string `json:"agent"`
+		ID       string `json:"id"`
+		After    string `json:"after,omitempty"`
+		Cols     int    `json:"cols,omitempty"`
+		Rows     int    `json:"rows,omitempty"`
+		Archived bool   `json:"archived,omitempty"`
 	}
 	// AgentSessionResult is the pane told of, and its session; Away: the
 	// agent runs under none of kero's shells, and so do its commands.
