@@ -16,6 +16,7 @@ A **session** is a unit of work: one task, one agent, one long-running process. 
 | New session                | <kbd>⌘</kbd> <kbd>T</kbd>                    |
 | New session in home folder | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>T</kbd>       |
 | Go to session…             | <kbd>⌘</kbd> <kbd>P</kbd>                    |
+| Resume a conversation…     | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>O</kbd>       |
 | Jump to session needing you | <kbd>⌘</kbd> <kbd>J</kbd>                   |
 | Next / previous session    | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>]</kbd> / <kbd>[</kbd> |
 | Rename session             | <kbd>⌘</kbd> <kbd>R</kbd>                    |
@@ -61,4 +62,21 @@ Sessions run in **kerod**, a daemon that the app starts on demand. Kero is a win
 kero daemon status       # is kerod running?
 kero daemon restart      # restart it (sessions start again)
 kero daemon stop         # stop it and end every session
+```
+
+## Past conversations
+
+Kero remembers the conversations of Claude Code, Codex, Pi and OpenCode that ran in its panes, once [Kero's skill](./agents.md#install-the-skill) is set up for the agent, so you can pick one up after its session is closed.
+
+- <kbd>⌘</kbd> <kbd>P</kbd> lists the last few under **Recent Conversations**, and finds older ones as you type.
+- **Session › Resume Conversation…** (<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>O</kbd>) lists them all.
+
+Picking one starts a session in the directory and project it ran in, under the name its session had, and resumes it as the agent's own resume option would. A conversation a pane still runs takes you to that pane instead. Each conversation shows by its session's name, else by its title: Claude Code's own, or what the agent showed as the pane's title.
+
+kerod keeps the last 200, in `conversations.json` beside its state, and each host keeps its own.
+
+```sh
+kero history             # the conversations, the last to run first
+kero history login       # those matching "login"
+kero resume 13b9         # resume one by its id, a prefix of it, or its name
 ```

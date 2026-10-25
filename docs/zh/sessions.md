@@ -16,6 +16,7 @@ Kero 将你的工作分为两层：项目（文件夹）包含会话（任务）
 | 新建会话                   | <kbd>⌘</kbd> <kbd>T</kbd>                    |
 | 在主目录新建会话           | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>T</kbd>       |
 | 前往会话…                  | <kbd>⌘</kbd> <kbd>P</kbd>                    |
+| 恢复对话…                  | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>O</kbd>       |
 | 跳到需要你的会话           | <kbd>⌘</kbd> <kbd>J</kbd>                    |
 | 下一个 / 上一个会话        | <kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>]</kbd> / <kbd>[</kbd> |
 | 重命名会话                 | <kbd>⌘</kbd> <kbd>R</kbd>                    |
@@ -62,4 +63,23 @@ kero new -p my-app       # 按名称在某个项目中新建会话
 kero daemon status       # kerod 是否在运行？
 kero daemon restart      # 重启它（会话会重新启动）
 kero daemon stop         # 停止它，并结束所有会话
+```
+
+<a id="past-conversations"></a>
+
+## 过去的对话
+
+为智能体设置好 [Kero 的技能](./agents.md#install-the-skill)后，Kero 会记住在它的窗格中运行过的 Claude Code、Codex、Pi 和 OpenCode 对话，这样即使会话已经关闭，你也能接着继续。
+
+- <kbd>⌘</kbd> <kbd>P</kbd> 在**最近的对话**下列出最近几个，输入时也能找到更早的。
+- **会话 › 恢复对话…**（<kbd>⌘</kbd> <kbd>⇧</kbd> <kbd>O</kbd>）列出全部。
+
+选中一个，Kero 会在它当初运行的目录和项目中、用当时会话的名字启动一个会话，并像智能体自带的恢复选项那样接着对话。如果某个窗格仍在运行这个对话，则会跳到那个窗格。对话以会话的名字显示，没有名字时显示标题：Claude Code 自己的标题，或智能体显示为窗格标题的内容。
+
+kerod 在状态文件旁的 `conversations.json` 中保留最近 200 个对话，每台主机各自保留自己的。
+
+```sh
+kero history             # 所有对话，最近运行的在前
+kero history login       # 与 “login” 匹配的对话
+kero resume 13b9         # 用 ID、ID 的前缀或名字恢复
 ```

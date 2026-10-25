@@ -106,6 +106,16 @@ func (msgs Messages) ActionGoToSession() string {
 	return Catalog.Format(msgs.locale, "actionGoToSession", nil)
 }
 
+// ActionResumeConversation says "Resume Conversation…"
+// in the language the app shows.
+func ActionResumeConversation() string { return In(i18n.Locale()).ActionResumeConversation() }
+
+// ActionResumeConversation says "Resume Conversation…"
+// in the language of msgs.
+func (msgs Messages) ActionResumeConversation() string {
+	return Catalog.Format(msgs.locale, "actionResumeConversation", nil)
+}
+
 // ActionJumpToAttention says "Jump to Session Needing You"
 // in the language the app shows.
 func ActionJumpToAttention() string { return In(i18n.Locale()).ActionJumpToAttention() }
@@ -1514,6 +1524,58 @@ func PaletteCommands() string { return In(i18n.Locale()).PaletteCommands() }
 // in the language of msgs.
 func (msgs Messages) PaletteCommands() string {
 	return Catalog.Format(msgs.locale, "paletteCommands", nil)
+}
+
+// PaletteConversations says "Recent Conversations"
+// in the language the app shows.
+func PaletteConversations() string { return In(i18n.Locale()).PaletteConversations() }
+
+// PaletteConversations says "Recent Conversations"
+// in the language of msgs.
+func (msgs Messages) PaletteConversations() string {
+	return Catalog.Format(msgs.locale, "paletteConversations", nil)
+}
+
+// PaletteConversationsLabel says "Resume Conversation"
+// in the language the app shows.
+func PaletteConversationsLabel() string { return In(i18n.Locale()).PaletteConversationsLabel() }
+
+// PaletteConversationsLabel says "Resume Conversation"
+// in the language of msgs.
+func (msgs Messages) PaletteConversationsLabel() string {
+	return Catalog.Format(msgs.locale, "paletteConversationsLabel", nil)
+}
+
+// PaletteConversationsPlaceholder says "Find a conversation to resume…"
+// in the language the app shows.
+func PaletteConversationsPlaceholder() string {
+	return In(i18n.Locale()).PaletteConversationsPlaceholder()
+}
+
+// PaletteConversationsPlaceholder says "Find a conversation to resume…"
+// in the language of msgs.
+func (msgs Messages) PaletteConversationsPlaceholder() string {
+	return Catalog.Format(msgs.locale, "paletteConversationsPlaceholder", nil)
+}
+
+// PaletteNoConversations says "No conversations yet. Coding agents’ conversations show here once Kero’s skill is set up for them."
+// in the language the app shows.
+func PaletteNoConversations() string { return In(i18n.Locale()).PaletteNoConversations() }
+
+// PaletteNoConversations says "No conversations yet. Coding agents’ conversations show here once Kero’s skill is set up for them."
+// in the language of msgs.
+func (msgs Messages) PaletteNoConversations() string {
+	return Catalog.Format(msgs.locale, "paletteNoConversations", nil)
+}
+
+// PaletteConversationRunning says "running"
+// in the language the app shows.
+func PaletteConversationRunning() string { return In(i18n.Locale()).PaletteConversationRunning() }
+
+// PaletteConversationRunning says "running"
+// in the language of msgs.
+func (msgs Messages) PaletteConversationRunning() string {
+	return Catalog.Format(msgs.locale, "paletteConversationRunning", nil)
 }
 
 // AgoNow says "now"

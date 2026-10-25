@@ -248,6 +248,43 @@ type AgentSession struct {
 	ID    string `json:"id"`
 }
 
+// Conversation is a coding agent's conversation that ran in one of
+// kerod's panes, as kerod remembers it after the pane is gone, to resume
+// (kero history, kero resume).
+type Conversation struct {
+	Agent string `json:"agent"` // as AgentSession's
+	ID    string `json:"id"`
+	Dir   string `json:"dir,omitempty"` // where the agent worked
+	// Project is the project of the session it ran in, Name that
+	// session's name, the user's or an agent's, and Title what the
+	// agent titled the conversation.
+	Project string `json:"project,omitempty"`
+	Name    string `json:"name,omitempty"`
+	Title   string `json:"title,omitempty"`
+	Started int64  `json:"started"` // unix ms
+	Updated int64  `json:"updated"` // when it last ran
+	// Session and Pane run it now; "" when none does.
+	Session string `json:"session,omitempty"`
+	Pane    string `json:"pane,omitempty"`
+}
+
+// Label is what to call a conversation: its session's name, else its
+// title, else its directory's name.
+func (c *Conversation) Label() string {
+	switch {
+	case c.Name != "":
+		return c.Name
+	case c.Title != "":
+		return c.Title
+	case c.Dir != "":
+		return DirName(c.Dir)
+	}
+	return c.Agent
+}
+
+// AgentNames are the coding agents' names as they show them.
+var AgentNames = map[string]string{"claude": "Claude Code", "codex": "Codex", "pi": "Pi", "opencode": "OpenCode"}
+
 // Session is a row of the sidebar: one task, with its terminals, its
 // panes, side by side. Its Pane fields are those of its lead pane, the
 // one that most needs the user (see Lead), so that a session reads as one.
@@ -779,6 +816,15 @@ type (
 		Agent   string `json:"agent"`
 		Session string `json:"session"`
 		Dir     string `json:"dir,omitempty"` // the agent's, to tell its pane by
+	}
+	// ConversationParams names a conversation (Conversation), to resume
+	// in a session after After, of Cols and Rows, or to forget.
+	ConversationParams struct {
+		Agent string `json:"agent"`
+		ID    string `json:"id"`
+		After string `json:"after,omitempty"`
+		Cols  int    `json:"cols,omitempty"`
+		Rows  int    `json:"rows,omitempty"`
 	}
 	// AgentSessionResult is the pane told of, and its session; Away: the
 	// agent runs under none of kero's shells, and so do its commands.

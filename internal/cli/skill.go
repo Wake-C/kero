@@ -40,6 +40,8 @@ prefix works), or a session's name; a session stands for its focused pane.
     kero wait <target> --exit                 # until its command ends; exits with its status
     kero events [target] [--for waiting,error] [--json]
                                               # a line per change, as it happens
+    kero history [query] [--json]             # agents' past conversations, to resume
+    kero resume <conversation>                # a session resuming one
     kero read <target> [-n 40] [-a]           # the screen, or with scrollback
     kero status <target> --json               # status, program, directory
     kero ls                                   # every session and pane

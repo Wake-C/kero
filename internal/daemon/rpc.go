@@ -361,7 +361,29 @@ func (d *Daemon) call(c *controlConn, method string, raw json.RawMessage) (any, 
 		d.mu.Lock()
 		sid := pn.sid
 		d.mu.Unlock()
+		d.noteConversations()
 		return proto.AgentSessionResult{Pane: id, Session: sid, Away: away}, nil
+
+	case "conversations":
+		return d.conversations(), nil
+
+	case "conversation.resume":
+		var p proto.ConversationParams
+		if err := decode(&p); err != nil {
+			return nil, err
+		}
+		return d.resumeConversation(p)
+
+	case "conversation.forget":
+		var p proto.ConversationParams
+		if err := decode(&p); err != nil {
+			return nil, err
+		}
+		if !d.convs.forget(p.Agent, p.ID) {
+			return nil, fmt.Errorf("no conversation %s of %s", p.ID, p.Agent)
+		}
+		d.save()
+		return true, nil
 
 	case "project.create":
 		var p proto.ProjectParams
