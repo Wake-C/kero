@@ -63,7 +63,7 @@ kero config check             # 不明なキーと不正な値を報告
 | キー                  | デフォルト | 説明                                                                     |
 | --------------------- | ---------- | ------------------------------------------------------------------------ |
 | `theme`               | `kero`     | ターミナルの色: `kero`、任意の Ghostty テーマ、または `light:<theme>,dark:<theme>` |
-| `font-family`         |            | 空欄なら Kero に付属の JetBrains Mono Nerd Font、`monospace` ならシステムのもの、またはインストール済みの任意のファミリー |
+| `font-family`         |            | 空欄なら Kero に付属の JetBrains Mono Nerd Font、続けてインストール済みの CJK 等幅フォント（Sarasa Mono SC、Maple Mono NF CN、Noto Sans Mono CJK）、`monospace` ならシステムのもの、またはインストール済みの任意のファミリー |
 | `font-size`           | `13`       | ポイント単位                                                             |
 | `font-weight`         | `400`      | `100` から `900`                                                         |
 | `line-height`         | `1.22`     | フォントの行の高さに対する倍率                                           |

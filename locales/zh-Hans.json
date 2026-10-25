@@ -239,7 +239,7 @@
   "bgPlain": "纯色",
   "setText": "文本",
   "setFont": "字体",
-  "setFontDetail": "Kero 自带含 Nerd Fonts 图标的 JetBrains Mono。任何已安装的等宽字体都可以使用；用逗号分隔的多个名称会依次尝试。",
+  "setFontDetail": "Kero 自带含 Nerd Fonts 图标的 JetBrains Mono。中日韩文字会在已安装时回退到 Sarasa Mono SC、Maple Mono NF CN、Noto Sans Mono CJK 等宽字体。任何已安装的等宽字体都可以使用；用逗号分隔的多个名称会依次尝试。",
   "setFontSystem": "系统",
   "setUseFont": "使用“{name}”",
   "setSize": "大小",
