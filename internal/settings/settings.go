@@ -56,6 +56,8 @@ type Settings struct {
 	Clipboard    string  `json:"clipboard"`  // programs reading it: "ask", "allow" or "deny"
 	RightClick   string  `json:"rightClick"` // "menu", "paste" or "copyOrPaste"
 
+	OpenDocumentLinks bool `json:"openDocumentLinks"` // local HTML and Markdown links open in a split
+
 	// Shell
 	Shell      string   `json:"shell"` // "" the account's login shell
 	Env        []string `json:"env"`   // "KEY=value", added to every pane's
